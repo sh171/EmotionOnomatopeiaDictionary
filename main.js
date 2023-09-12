@@ -55,6 +55,51 @@ const pictureDictionary = {
     "zing":"https://cdn.pixabay.com/photo/2017/09/14/16/38/fiber-optic-2749588_1280.jpg"
 };
 
+class Word {
+    constructor(word, definition, pictureUrl) {
+        this.word = word;
+        this.definition = definition;
+        this.pictureUrl = pictureUrl;
+    }
+}
+
+class EmotionObject {
+    constructor(emotion, description, color, onomatopoeia, emoji) {
+        this.emotion = emotion;
+        this.description = description;
+        this.color = color;
+        this.onomatopoeia = onomatopoeia;
+        this.emoji = emoji;
+    }
+
+    // return an array of word objects that has onomatopeias
+    getOnomatopoeiaWords() {
+    }
+
+    getHtmlCategoryString() {
+        let category = document.createElement("div");
+        category.classList.add("col-lg-3", "col-md-6", "col-12", "text-center", "text-white", "border", "p-4", "m-4");
+        category.style.backgroundColor = this.color;
+
+        let emotionName = document.createElement("h2");
+        let emoji = document.createElement("h1");
+        let description = document.createElement("p");
+
+        emotionName.innerHTML = this.emotion;
+        emoji.innerHTML = this.emoji;
+        description.innerHTML = this.description;
+
+        category.append(emotionName);
+        category.append(emoji);
+        category.append(description);
+
+        return category;
+    }
+
+    getHtmlContaierString() {
+    }
+}
+
 const emotions = [
     new EmotionObject("angry", "feeling or showing strong annoyance, displeasure, or hostility; full of anger.", "red", ["bark","grunt", "roar","whack","smack","hiss"], "😠"),
     new EmotionObject("happy", "feeling or showing pleasure or contentment.", "yellow", ["bling","chatter","chant","giggle"], "😁"),
@@ -65,30 +110,11 @@ const emotions = [
     new EmotionObject("disgusted", "feeling or showing strong annoyance, displeasure, or hostility; full of anger.", "orange", ["flick","gargle","oink"], "😒")
 ];
 
-class Word {
-    constructor(word, definition, pictureUrl) {
-        this.word = word;
-        this.definition = definition;
-        this.pictureUrl = pictureUrl;
-    }
-}
+const target = document.getElementById("target");
 
-class EmotionObject {
-    constructor(emotion, description, color, emoji, onomatopoeia) {
-        this.emotion = emotion;
-        this.description = description;
-        this.color = color;
-        this.emoji = emoji;
-        this.onomatopoeia = onomatopoeia;
-    }
+let emotionCategory = document.createElement("div");
+emotionCategory.classList.add("container", "d-flex", "flex-wrap", "justify-content-center");
 
-    // return an array of word objects that has onomatopeias
-    getOnomatopoeiaWords() {
-    }
+emotions.map(emo => emotionCategory.append(emo.getHtmlCategoryString()));
 
-    getHtmlCategoryString() {
-    }
-
-    getHtmlContaierString() {
-    }
-}
+target.append(emotionCategory);
