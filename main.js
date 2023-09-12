@@ -83,20 +83,40 @@ class EmotionObject {
 
         let emotionName = document.createElement("h2");
         let emoji = document.createElement("h1");
-        let description = document.createElement("p");
+        let descriptionP = document.createElement("p");
 
         emotionName.innerHTML = this.emotion;
         emoji.innerHTML = this.emoji;
-        description.innerHTML = this.description;
+        descriptionP.innerHTML = this.description;
 
         category.append(emotionName);
         category.append(emoji);
-        category.append(description);
+        category.append(descriptionP);
 
         return category;
     }
 
-    getHtmlContaierString() {
+    getHtmlContainerString() {
+        let container = document.createElement("div");
+        container.style.backgroundColor = this.color;
+
+        let div = document.createElement("div");
+        div.classList.add("container", "py-3");
+
+        let textDiv = document.createElement("div");
+        textDiv.classList.add("text-white");
+        let emotionName = document.createElement("h2");
+        emotionName.innerHTML = this.emotion;
+        let descriptionP = document.createElement("p");
+        descriptionP.innerHTML = this.description;
+
+        textDiv.append(emotionName);
+        textDiv.append(descriptionP);
+        div.append(textDiv);
+
+        container.append(div);
+
+        return container;
     }
 }
 
@@ -115,6 +135,10 @@ const target = document.getElementById("target");
 let emotionCategory = document.createElement("div");
 emotionCategory.classList.add("container", "d-flex", "flex-wrap", "justify-content-center");
 
+let emotionContainer = document.createElement("div");
+
 emotions.map(emo => emotionCategory.append(emo.getHtmlCategoryString()));
+emotions.map(emo => emotionContainer.append(emo.getHtmlContainerString()));
 
 target.append(emotionCategory);
+target.append(emotionContainer);
