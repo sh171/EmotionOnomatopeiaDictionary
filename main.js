@@ -74,13 +74,20 @@ class EmotionObject {
 
     // return an array of word objects that has onomatopeias
     getOnomatopoeiaWords() {
+        let wordList = [];
+        for (let i=0; i<this.onomatopoeia.length; i++) {
+            wordList.push(new Word(this.onomatopoeia[i], dictionary[this.onomatopoeia[i]], pictureDictionary[this.onomatopoeia[i]]));
+        }
+        return wordList;
     }
 
     getHtmlCategoryString() {
         let category = document.createElement("div");
-        category.classList.add("col-lg-3", "col-md-6", "col-12", "text-center", "text-white", "border", "p-4", "m-4");
+        category.classList.add("col-lg-3", "col-md-6", "col-12", "text-center", "text-white", "border", "p-4", "m-4", "linkbox");
         category.style.backgroundColor = this.color;
 
+        let link = document.createElement("a");
+        link.href = `#${this.emotion}`;
         let emotionName = document.createElement("h2");
         let emoji = document.createElement("h1");
         let descriptionP = document.createElement("p");
@@ -89,6 +96,7 @@ class EmotionObject {
         emoji.innerHTML = this.emoji;
         descriptionP.innerHTML = this.description;
 
+        category.append(link);
         category.append(emotionName);
         category.append(emoji);
         category.append(descriptionP);
@@ -98,6 +106,7 @@ class EmotionObject {
 
     getHtmlContainerString() {
         let container = document.createElement("div");
+        container.id = this.emotion;
         container.style.backgroundColor = this.color;
 
         let div = document.createElement("div");
@@ -113,6 +122,26 @@ class EmotionObject {
         textDiv.append(emotionName);
         textDiv.append(descriptionP);
         div.append(textDiv);
+
+        let wordDiv = document.createElement("div");
+        wordDiv.classList.add("d-flex", "flex-wrap", "justify-content-between");
+        for (let i=0; i<this.getOnomatopoeiaWords().length; i++){
+            let currWord = this.getOnomatopoeiaWords()[i];
+            wordDiv.innerHTML += 
+            `
+                <div class="col-12 col-md-5 my-3 py-2 bg-white d-flex flex-wrap align-items-center">
+                    <div class="col-8 px-2">
+                        <h4>${currWord.word}</h4>
+                        <p>${currWord.definition}</p>
+                    </div>
+                    <div class="col-4">
+                        <img class="col-12 px-1" src="${currWord.pictureUrl}" alt="">
+                    </div>
+                </div>
+            `
+            div.append(wordDiv);
+        }
+
 
         container.append(div);
 
